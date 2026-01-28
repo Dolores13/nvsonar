@@ -1,0 +1,89 @@
+[build-system]
+requires = ["setuptools>=65.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "nvsonar"
+version = "0.0.1"
+description = "Active GPU diagnostic tool that identifies performance bottlenecks"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "Apache-2.0" }
+authors = [
+    {name = "Bekmukhamed Tursunbayev"},
+    {name = "Varvara Bondarenko"}
+]
+keywords = ["gpu", "cuda", "nvidia", "monitoring", "diagnostics", "performance"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: System :: Monitoring",
+    "Topic :: System :: Hardware",
+    "Topic :: Scientific/Engineering",
+]
+
+
+[project.optional-dependencies]
+
+[project.scripts]
+nvsonar = "nvsonar.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/btursunbayev/nvsonar"
+Documentation = "https://github.com/btursunbayev/nvsonar/tree/main/docs"
+Repository = "https://github.com/btursunbayev/nvsonar"
+Changelog = "https://github.com/btursunbayev/nvsonar/blob/main/CHANGELOG.md"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+nvsonar = ["py.typed"]
+
+[tool.black]
+line-length = 100
+target-version = ["py310"]
+include = '\.pyi?$'
+
+[tool.isort]
+profile = "black"
+line_length = 100
+
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = false
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = "-v --cov=nvsonar --cov-report=term-missing"
+markers = [
+    "requires_gpu: tests that require an NVIDIA GPU",
+]
+
+[tool.coverage.run]
+source = ["src/nvsonar"]
+omit = ["tests/*"]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    "if TYPE_CHECKING:",
+]
