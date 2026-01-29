@@ -1,4 +1,4 @@
-"""Main entry point when running as a module."""
+"""Main entry point when running as a module"""
 
 from nvsonar.cli import app
 

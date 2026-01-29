@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "nvsonar"
-version = "0.0.1"
+version = "1.0.0"
 description = "Active GPU diagnostic tool that identifies performance bottlenecks"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -15,7 +15,7 @@ authors = [
 ]
 keywords = ["gpu", "cuda", "nvidia", "monitoring", "diagnostics", "performance"]
 classifiers = [
-    "Development Status :: 3 - Alpha",
+    "Development Status :: 4 - Beta",
     "Environment :: Console",
     "Intended Audience :: Developers",
     "Intended Audience :: Science/Research",
@@ -28,6 +28,12 @@ classifiers = [
     "Topic :: System :: Monitoring",
     "Topic :: System :: Hardware",
     "Topic :: Scientific/Engineering",
+]
+dependencies = [
+    "nvidia-ml-py>=12.535.0",
+    "typer>=0.9.0",
+    "rich>=13.0.0",
+    "textual>=0.47.0",
 ]
 
 
@@ -45,9 +51,7 @@ nvsonar = "nvsonar.cli:main"
 
 [project.urls]
 Homepage = "https://github.com/btursunbayev/nvsonar"
-Documentation = "https://github.com/btursunbayev/nvsonar/tree/main/docs"
-Repository = "https://github.com/btursunbayev/nvsonar"
-Changelog = "https://github.com/btursunbayev/nvsonar/blob/main/CHANGELOG.md"
+Repository = "https://github.com/btursunbayev/nvsonar.git"
 
 [tool.setuptools.packages.find]
 where = ["src"]
