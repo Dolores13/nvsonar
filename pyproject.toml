@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "nvsonar"
-version = "1.0.1"
+version = "1.0.2"
 description = "Active GPU diagnostic tool that identifies performance bottlenecks"
 readme = "README.md"
 requires-python = ">=3.10"

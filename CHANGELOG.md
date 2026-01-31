@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.0.2] - 2026-01-30
+
+### Fixed
+- Personal link
+
+
 ## [1.0.1] - 2026-01-30
 
 ### Added
