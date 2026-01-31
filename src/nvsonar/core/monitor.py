@@ -1,19 +1,16 @@
 """GPU monitoring using NVML"""
 
-import time
 from dataclasses import dataclass
 
-try:
-    import pynvml as nvml
-except ImportError:
-    import nvidia_ml_py.nvml as nvml
+import pynvml as nvml
+
+from nvsonar.utils.gpu_info import initialize
 
 
 @dataclass
 class GPUMetrics:
     """Current GPU metrics snapshot"""
 
-    timestamp: float
     temperature: float
     power_usage: float | None
     power_limit: float | None
@@ -31,7 +28,6 @@ class GPUMonitor:
 
     def __init__(self, device_index: int = 0):
         """Initialize monitor for specific GPU"""
-        from nvsonar.utils.gpu_info import initialize
 
         self.device_index = device_index
         self._handle = None
@@ -83,7 +79,6 @@ class GPUMonitor:
             )
 
             return GPUMetrics(
-                timestamp=time.time(),
                 temperature=temperature,
                 power_usage=power_usage,
                 power_limit=power_limit,

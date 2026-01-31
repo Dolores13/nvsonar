@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "nvsonar"
-version = "1.0.0"
+version = "1.0.1"
 description = "Active GPU diagnostic tool that identifies performance bottlenecks"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -36,28 +36,15 @@ dependencies = [
     "textual>=0.47.0",
 ]
 
-
-[project.optional-dependencies]
-dev = [
-    "pytest>=7.0.0",
-    "pytest-cov>=4.0.0",
-    "black>=23.0.0",
-    "isort>=5.12.0",
-    "flake8>=6.0.0",
-]
-
 [project.scripts]
 nvsonar = "nvsonar.cli:main"
 
 [project.urls]
-Homepage = "https://github.com/btursunbayev/nvsonar"
-Repository = "https://github.com/btursunbayev/nvsonar.git"
+Homepage = "btursunbayev.github.io"
+Repository = "https://github.com/btursunbayev/nvsonar"
 
 [tool.setuptools.packages.find]
 where = ["src"]
-
-[tool.setuptools.package-data]
-nvsonar = ["py.typed"]
 
 [tool.black]
 line-length = 100

@@ -6,13 +6,17 @@ from rich.table import Table
 from textual.app import App, ComposeResult
 from textual.widgets import Footer, Header, Static
 
+from nvsonar.core.monitor import GPUMonitor
+from nvsonar.utils.gpu_info import get_device_count, initialize, list_all_gpus
+
+UPDATE_INTERVAL = 0.5  # Update interval in seconds
+
 
 class GPUListDisplay(Static):
     """Display all available GPUs in a table"""
 
-    def on_mount(self):
+    def on_mount(self) -> None:
         """Initialize GPU list"""
-        from nvsonar.utils.gpu_info import initialize, list_all_gpus
 
         if not initialize():
             self.update("[red]Failed to initialize NVML[/red]")
@@ -50,10 +54,8 @@ class LiveMetrics(Static):
         super().__init__()
         self.monitors = []
 
-    def on_mount(self):
+    def on_mount(self) -> None:
         """Start monitoring all GPUs"""
-        from nvsonar.core.monitor import GPUMonitor
-        from nvsonar.utils.gpu_info import get_device_count, initialize
 
         if not initialize():
             self.update("[red]Failed to initialize NVML[/red]")
@@ -72,16 +74,16 @@ class LiveMetrics(Static):
                 pass
 
         if self.monitors:
-            self.set_interval(0.5, self.update_metrics)
+            self.set_interval(UPDATE_INTERVAL, self.update_metrics)
 
-    def update_metrics(self):
+    def update_metrics(self) -> None:
         """Update metrics for all GPUs"""
         if not self.monitors:
             return
 
         try:
             panels = []
-            for gpu_idx, monitor in self.monitors:
+            for device_index, monitor in self.monitors:
                 m = monitor.get_current_metrics()
 
                 table = Table(show_header=False, box=None, padding=(0, 1))
@@ -110,7 +112,7 @@ class LiveMetrics(Static):
                 table.add_row("Memory Clock", f"{m.memory_clock} MHz")
 
                 panel = Panel(
-                    table, title=f"GPU {gpu_idx} Metrics", border_style="green"
+                    table, title=f"GPU {device_index} Metrics", border_style="green"
                 )
                 panels.append(panel)
 
@@ -123,7 +125,7 @@ class LiveMetrics(Static):
 class NVSonarApp(App):
     """NVSonar terminal user interface"""
 
-    TITLE = "NVSonar v1.0"
+    TITLE = "NVSonar"
     SUB_TITLE = "GPU Diagnostic Tool"
     CSS = """
     GPUListDisplay {
@@ -131,7 +133,7 @@ class NVSonarApp(App):
         padding: 1;
         margin: 1;
     }
-    
+
     LiveMetrics {
         height: auto;
         padding: 0;
@@ -150,7 +152,7 @@ class NVSonarApp(App):
         yield LiveMetrics()
         yield Footer()
 
-    def action_quit(self):
+    def action_quit(self) -> None:
         """Quit the application"""
         self.exit()
 

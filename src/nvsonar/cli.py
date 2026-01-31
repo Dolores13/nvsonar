@@ -3,40 +3,26 @@
 import sys
 
 import typer
-from rich.console import Console
 
-app = typer.Typer(
-    name="nvsonar",
-    help="Active GPU diagnostic tool",
-    add_completion=False,
-    invoke_without_command=True,
-)
-console = Console()
+app = typer.Typer(add_completion=False)
 
 
-@app.callback()
-def callback(ctx: typer.Context):
-    """Launch interactive TUI"""
-    if ctx.invoked_subcommand is None:
-        try:
-            from nvsonar.tui.app import NVSonarApp
-
-            tui_app = NVSonarApp()
-            tui_app.run()
-        except ImportError as e:
-            console.print(f"[red]Error: Failed to import TUI: {e}[/red]")
-            console.print("[yellow]Install dependencies: pip install nvsonar[/yellow]")
-            sys.exit(1)
-        except Exception as e:
-            console.print(f"[red]Error: {e}[/red]")
-            sys.exit(1)
-        ctx.exit()
-
-
+@app.command()
 def main():
-    """Main entry point"""
-    app()
+    """Launch GPU monitoring interface"""
+    try:
+        from nvsonar.tui.app import NVSonarApp
+
+        tui_app = NVSonarApp()
+        tui_app.run()
+    except ImportError as e:
+        typer.echo(f"Error: Failed to import TUI: {e}", err=True)
+        typer.echo("Install dependencies: pip install nvsonar", err=True)
+        sys.exit(1)
+    except Exception as e:
+        typer.echo(f"Error: {e}", err=True)
+        sys.exit(1)
 
 
 if __name__ == "__main__":
-    main()
+    app()
