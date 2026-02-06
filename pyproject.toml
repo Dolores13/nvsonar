@@ -40,7 +40,7 @@ dependencies = [
 nvsonar = "nvsonar.cli:main"
 
 [project.urls]
-Homepage = "https://btursunbayev.github.io"
+Homepage = "https://btursunbayev.com"
 Repository = "https://github.com/btursunbayev/nvsonar"
 
 [tool.setuptools.packages.find]
