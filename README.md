@@ -6,19 +6,20 @@
 [![Downloads](https://pepy.tech/badge/nvsonar)](https://pepy.tech/project/nvsonar)
 
 
-Active GPU diagnostic tool that identifies performance bottlenecks using targeted micro-probes.
+Active GPU diagnostic tool with real-time bottleneck detection and performance analysis.
 
 ## Why NVSonar?
 
-Traditional GPU monitoring tools show utilization percentages, but this can be misleading. A GPU reporting 100% utilization may actually be computing useful work, or it may be stalled waiting on memory transfers (memory-bound) or PCIe transfers (PCIe-bound).
+Traditional GPU monitoring tools show utilization percentages, but this can be misleading. A GPU reporting 100% utilization may actually be computing useful work, or wastefully stalled waiting on memory transfers, thermal throttling, or power limits.
 
+NVSonar analyzes real-time patterns from NVML metrics to identify what's actually limiting your GPU performance.
 ## Features
 
-- Runs CUDA micro-probes to stress-test specific GPU subsystems
-- Monitor temperature, power, utilization, clocks
-- Provides an interactive TUI with multi-GPU support
-- Detects performance bottlenecks in memory, compute, or PCIe
-- Generates an overall GPU health and performance score
+- Real-time Bottleneck Detection
+- Subsystem Utilization Analysis
+- Peak Value Tracking
+- Visual Progress Bars
+- Multi-GPU Support**
 
 ## Installation
 
@@ -37,26 +38,30 @@ nvsonar
 
 ```
 ┌─ NVSonar ──────────────────────────────────────────────────────┐
-│                          Available GPUs                        │  
+│  [Overview] [History] [Settings]                               │
+├────────────────────────────────────────────────────────────────┤
+│                        Available GPUs                          │ 
 ┡━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━╇━━━━━━━━━━━╇━━━━━━┩
 │ Index │ Name                       │ Memory │ Driver    │ CUDA │
 │   0   │ NVIDIA GeForce GTX 1650 Ti │ 4.0 GB │ 580.95.05 │ 13.0 │
 └───────┴────────────────────────────┴────────┴───────────┴──────┘
 
-╭─────────────────────── GPU 0 Metrics ──────────────────────────╮
-│  Temperature         45.0°C                                    │
-│  Power               2.8W                                      │
-│  GPU Utilization     0%                                        │
-│  Memory Utilization  0%                                        │
-│  Memory Used         0.4 / 4.0 GB                              │
-│  GPU Clock           300 MHz                                   │
-│  Memory Clock        405 MHz                                   │
-╰────────────────────────────────────────────────────────────────╯
+╭────────── NVIDIA GeForce GTX 1650 Ti Metrics ─────────────────╮
+│  Compute           ████████████░░░░░░░░ 65%                   │
+│  Memory            ████████░░░░░░░░░░░░ 35%                   │
+│  Thermal           ████████████░░░░░░░░ 68%                   │
+│                                                               │
+│  Status            GPU cores are the limiting factor          │
+│                                                               │
+│  Power             ████████████████░░░░ 32.5W / 50.0W         │
+│  Temperature       ████████████░░░░░░░░ 68°C / 83°C           │
+│  GPU Utilization   ████████████░░░░░░░░ 65%                   │
+│  Memory Utilization████████░░░░░░░░░░░░ 35%                   │
+│  Memory Used       ██████░░░░░░░░░░░░░░ 2.2 / 4.0 GB          │
+│  GPU Clock         1740 MHz                                   │
+│  Memory Clock      5000 MHz                                   │
+╰───────────────────────────────────────────────────────────────╯
 ```
-
-- All available GPUs displayed in table at top
-- Live metrics for each GPU (updates every 0.5s)
-- Press 'q' to quit
 
 ## Requirements
 
