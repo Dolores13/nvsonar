@@ -11,8 +11,8 @@ def _decode_if_bytes(value: str | bytes) -> str:
 
 
 @dataclass
-class GPUInfo:
-    """Information about a GPU device"""
+class Info:
+    """GPU device information"""
 
     index: int
     name: str
@@ -24,13 +24,12 @@ class GPUInfo:
 
 
 class _NVMLContext:
-    """NVML library context manager"""
+    """NVML library context"""
 
     def __init__(self):
         self._initialized = False
 
     def initialize(self) -> bool:
-        """Initialize NVML library"""
         if self._initialized:
             return True
 
@@ -43,7 +42,6 @@ class _NVMLContext:
 
     @property
     def is_initialized(self) -> bool:
-        """Check if NVML is initialized"""
         return self._initialized
 
 
@@ -51,12 +49,11 @@ _nvml_context = _NVMLContext()
 
 
 def initialize() -> bool:
-    """Initialize NVML library"""
     return _nvml_context.initialize()
 
 
 def get_device_count() -> int:
-    """Get number of available GPUs"""
+    """Get number of available GPUS"""
     if not _nvml_context.is_initialized:
         return 0
 
@@ -66,8 +63,8 @@ def get_device_count() -> int:
         return 0
 
 
-def get_gpu_info(device_index: int = 0) -> GPUInfo | None:
-    """Get information about specific GPU"""
+def get_device_info(device_index: int = 0) -> Info | None:
+    """Get GPU information"""
     if not _nvml_context.is_initialized:
         return None
 
@@ -86,7 +83,7 @@ def get_gpu_info(device_index: int = 0) -> GPUInfo | None:
         pci_info = nvml.nvmlDeviceGetPciInfo(handle)
         pci_bus_id = _decode_if_bytes(pci_info.busId)
 
-        return GPUInfo(
+        return Info(
             index=device_index,
             name=name,
             uuid=uuid,
@@ -99,17 +96,17 @@ def get_gpu_info(device_index: int = 0) -> GPUInfo | None:
         return None
 
 
-def list_all_gpus() -> list[GPUInfo]:
+def list_devices() -> list[Info]:
     """List all available GPUs"""
     if not _nvml_context.initialize():
         return []
 
     count = get_device_count()
-    gpus = []
+    devices = []
 
     for i in range(count):
-        info = get_gpu_info(i)
+        info = get_device_info(i)
         if info:
-            gpus.append(info)
+            devices.append(info)
 
-    return gpus
+    return devices

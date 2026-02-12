@@ -11,9 +11,9 @@ app = typer.Typer(add_completion=False)
 def main():
     """Launch GPU monitoring interface"""
     try:
-        from nvsonar.tui.app import NVSonarApp
+        from nvsonar.tui.app import App
 
-        tui_app = NVSonarApp()
+        tui_app = App()
         tui_app.run()
     except ImportError as e:
         typer.echo(f"Error: Failed to import TUI: {e}", err=True)

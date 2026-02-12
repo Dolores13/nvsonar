@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.1.0] - 2026-02-11
+
+### Added
+- Bottleneck types
+- Utilization tracking
+- Peak value history tab (60 sec window)
+- Visuals
+- Tabbed interface (Overview/History/Settings)
+
 ## [1.0.2] - 2026-01-30
 
 ### Fixed
