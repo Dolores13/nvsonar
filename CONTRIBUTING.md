@@ -13,3 +13,15 @@ This guide will help you set up a development environment and contribute smoothl
 ```bash
 git clone https://github.com/<YOUR-USERNAME>/nvsonar.git
 cd nvsonar
+```
+
+## 2. Install Package
+Install the package from the local workspace in editable mode
+```bash
+pip install -e .
+```
+
+## 3. Run
+```bash
+nvsonar
+```
