@@ -4,6 +4,7 @@
 [![Python](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
 [![License](https://img.shields.io/badge/license-Apache%202.0-green.svg)](LICENSE)
 [![Downloads](https://pepy.tech/badge/nvsonar)](https://pepy.tech/project/nvsonar)
+![Lint](https://github.com/Dolores13/nvsonar/actions/workflows/lint.yml/badge.svg)
 
 
 Active GPU diagnostic tool with real-time bottleneck detection and performance analysis.
