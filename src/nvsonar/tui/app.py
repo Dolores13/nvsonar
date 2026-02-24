@@ -169,17 +169,11 @@ class Metrics(Static):
                             analysis.temperature / analyzer.baseline.max_temperature
                         ) * 100
                         thermal_bar = _make_bar(thermal_percent, 100)
-                        table.add_row(
-                            "Thermal", f"{thermal_bar} {thermal_percent:.0f}%"
-                        )
+                        table.add_row("Thermal", f"{thermal_bar} {thermal_percent:.0f}%")
 
                     # Status with color
-                    bottleneck_color = self._get_bottleneck_color(
-                        analysis.bottleneck_type.value
-                    )
-                    explanation = self._get_bottleneck_explanation(
-                        analysis.bottleneck_type.value
-                    )
+                    bottleneck_color = self._get_bottleneck_color(analysis.bottleneck_type.value)
+                    explanation = self._get_bottleneck_explanation(analysis.bottleneck_type.value)
                     table.add_row("", "")
                     table.add_row(
                         "Status",
@@ -192,9 +186,7 @@ class Metrics(Static):
                 if m.power_usage:
                     if m.power_limit:
                         power_bar = _make_bar(m.power_usage, m.power_limit)
-                        power_display = (
-                            f"{power_bar} {m.power_usage:.1f}W / {m.power_limit:.1f}W"
-                        )
+                        power_display = f"{power_bar} {m.power_usage:.1f}W / {m.power_limit:.1f}W"
                     else:
                         power_display = f"{m.power_usage:.1f}W"
                     table.add_row("Power", power_display)
@@ -218,9 +210,7 @@ class Metrics(Static):
 
                 # Memory Utilization
                 mem_bar = _make_bar(m.memory_utilization, 100)
-                table.add_row(
-                    "Memory Utilization", f"{mem_bar} {m.memory_utilization}%"
-                )
+                table.add_row("Memory Utilization", f"{mem_bar} {m.memory_utilization}%")
 
                 # Memory Used
                 vram_bar = _make_bar(m.memory_used, m.memory_total)
@@ -234,9 +224,7 @@ class Metrics(Static):
                 table.add_row("Memory Clock", f"{m.memory_clock} MHz")
 
                 device_name = self.device_names.get(device_index, f"GPU {device_index}")
-                panel = Panel(
-                    table, title=f"{device_name} Metrics", border_style="green"
-                )
+                panel = Panel(table, title=f"{device_name} Metrics", border_style="green")
                 panels.append(panel)
 
             group = Group(*panels)
@@ -253,9 +241,7 @@ class Metrics(Static):
         while history and (current_time - history[0].timestamp) > PEAK_WINDOW:
             history.popleft()
 
-    def _add_snapshot(
-        self, device_index: int, metrics, analysis=None, analyzer=None
-    ) -> None:
+    def _add_snapshot(self, device_index: int, metrics, analysis=None, analyzer=None) -> None:
         """Add new snapshot to history"""
         # Calculate analyzed metrics if available
         compute_util = analysis.device_util if analysis else None
@@ -266,9 +252,7 @@ class Metrics(Static):
         if analysis:
             status = analysis.bottleneck_type.value
             if analyzer and analyzer.baseline:
-                thermal_percent = (
-                    metrics.temperature / analyzer.baseline.max_temperature
-                ) * 100
+                thermal_percent = (metrics.temperature / analyzer.baseline.max_temperature) * 100
 
         snapshot = MetricSnapshot(
             timestamp=time(),
@@ -314,9 +298,7 @@ class Metrics(Static):
         if mem_values:
             peaks["mem_util"] = max(mem_values)
 
-        thermal_values = [
-            s.thermal_percent for s in history if s.thermal_percent is not None
-        ]
+        thermal_values = [s.thermal_percent for s in history if s.thermal_percent is not None]
         if thermal_values:
             peaks["thermal_percent"] = max(thermal_values)
 
@@ -383,9 +365,7 @@ class PeakMetrics(Static):
                 if not peaks:
                     continue
 
-                _, analyzer = self.metrics_widget.device_map.get(
-                    device_index, (None, None)
-                )
+                _, analyzer = self.metrics_widget.device_map.get(device_index, (None, None))
 
                 table = Table(show_header=False, box=None, padding=(0, 1))
                 table.add_column("Metric", style="cyan")
@@ -402,18 +382,12 @@ class PeakMetrics(Static):
 
                 if "thermal_percent" in peaks:
                     thermal_bar = _make_bar(peaks["thermal_percent"], 100)
-                    table.add_row(
-                        "Thermal", f"{thermal_bar} {peaks['thermal_percent']:.0f}%"
-                    )
+                    table.add_row("Thermal", f"{thermal_bar} {peaks['thermal_percent']:.0f}%")
 
                 # Status at peak (if available)
                 if "status" in peaks and peaks["status"]:
-                    bottleneck_color = self.metrics_widget._get_bottleneck_color(
-                        peaks["status"]
-                    )
-                    explanation = self.metrics_widget._get_bottleneck_explanation(
-                        peaks["status"]
-                    )
+                    bottleneck_color = self.metrics_widget._get_bottleneck_color(peaks["status"])
+                    explanation = self.metrics_widget._get_bottleneck_explanation(peaks["status"])
                     table.add_row("", "")
                     table.add_row(
                         "Peak Status",
@@ -447,15 +421,11 @@ class PeakMetrics(Static):
 
                 # GPU Utilization
                 gpu_bar = _make_bar(peaks["device_utilization"], 100)
-                table.add_row(
-                    "GPU Utilization", f"{gpu_bar} {peaks['device_utilization']}%"
-                )
+                table.add_row("GPU Utilization", f"{gpu_bar} {peaks['device_utilization']}%")
 
                 # Memory Utilization
                 mem_bar = _make_bar(peaks["memory_utilization"], 100)
-                table.add_row(
-                    "Memory Utilization", f"{mem_bar} {peaks['memory_utilization']}%"
-                )
+                table.add_row("Memory Utilization", f"{mem_bar} {peaks['memory_utilization']}%")
 
                 # Memory Used
                 m = monitor.get_current_metrics()
@@ -483,9 +453,7 @@ class PeakMetrics(Static):
                 group = Group(*panels)
                 self.update(group)
             else:
-                self.update(
-                    "[dim]No peak data yet - run a workload to collect data[/dim]"
-                )
+                self.update("[dim]No peak data yet - run a workload to collect data[/dim]")
         except Exception as e:
             self.update(f"[red]Error: {e}[/red]")
 

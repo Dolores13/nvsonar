@@ -114,7 +114,7 @@ class Analyzer:
         if device_util >= 30 and mem_util < 50:
             return BottleneckType.COMPUTE_BOUND, 60.0
 
-        # Moderate memory workload  
+        # Moderate memory workload
         if mem_util >= 40 and device_util < 60:
             return BottleneckType.MEMORY_BOUND, 55.0
 

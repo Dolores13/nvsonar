@@ -44,9 +44,7 @@ class Monitor:
             raise RuntimeError("Monitor not initialized")
 
         try:
-            temperature = nvml.nvmlDeviceGetTemperature(
-                self._handle, nvml.NVML_TEMPERATURE_GPU
-            )
+            temperature = nvml.nvmlDeviceGetTemperature(self._handle, nvml.NVML_TEMPERATURE_GPU)
 
             try:
                 power_usage = nvml.nvmlDeviceGetPowerUsage(self._handle) / 1000.0
@@ -54,9 +52,7 @@ class Monitor:
                 power_usage = None
 
             try:
-                power_limit = (
-                    nvml.nvmlDeviceGetPowerManagementLimit(self._handle) / 1000.0
-                )
+                power_limit = nvml.nvmlDeviceGetPowerManagementLimit(self._handle) / 1000.0
             except nvml.NVMLError:
                 power_limit = None
 
@@ -69,12 +65,8 @@ class Monitor:
 
             memory_info = nvml.nvmlDeviceGetMemoryInfo(self._handle)
 
-            device_clock = nvml.nvmlDeviceGetClockInfo(
-                self._handle, nvml.NVML_CLOCK_GRAPHICS
-            )
-            memory_clock = nvml.nvmlDeviceGetClockInfo(
-                self._handle, nvml.NVML_CLOCK_MEM
-            )
+            device_clock = nvml.nvmlDeviceGetClockInfo(self._handle, nvml.NVML_CLOCK_GRAPHICS)
+            memory_clock = nvml.nvmlDeviceGetClockInfo(self._handle, nvml.NVML_CLOCK_MEM)
 
             return Metrics(
                 temperature=temperature,
